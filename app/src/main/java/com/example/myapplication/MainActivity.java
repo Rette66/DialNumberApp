@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //initial buttons
         btnOne = findViewById(R.id.buttonOne);
         btnTwo = findViewById(R.id.buttonTwo);
         btnThree = findViewById(R.id.buttonThree);
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //add on click listener
     public void onButtonOne(View view){
         onButtonClick(btnOne, input, "1");
     }
@@ -98,13 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonCall(View view){
-//        Intent intent = new Intent(Intent.ACTION_CALL);
-//        String hash = input.getText().toString();
-//        if(hash.contains("#")) {
-//            hash = hash.replace("#", "%23");
-//        }
-//        intent.setData(Uri.parse("tel:"+ hash));
-
+        //request permission dynamically
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -116,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void makePhoneCall(){
+        //setup and make phone call
         Intent intent = new Intent(Intent.ACTION_CALL);
         String hash = input.getText().toString();
         if(hash.length()<=3){
@@ -133,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        //check if permission granted
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall();
@@ -141,14 +139,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onDelete(View view){
+        //remove last char
         String phoneNum = input.getText().toString();
         phoneNum = phoneNum.substring(0,phoneNum.length()-1);
         input.setText(phoneNum);
     }
 
     public void onButtonClick(Button btn, EditText input, String number){
+        //handle number button click by adding number
         String phoneNum = input.getText().toString();
-        input.setText(phoneNum + number);
+        input.setText(String.format("%s%s", phoneNum, number));
     }
 
 
